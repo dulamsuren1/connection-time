@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ОЧОО</title>
+    <style>
+        table {
+            width: 60%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ccc;
+        }
+        input[type="text"] {
+            width: 60px;
+            padding: 5px;
+        }
+        .output {
+            font-weight: bold;
+            color: green;
+        }
+        .no-flight {
+            background-color: lightgray;
+        }
+        .table-title, .route-description {
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+<h1 style="text-align: center;">ОЧОО</h1>
+
+
+<!-- Table 1 -->
+<table>
+    <thead>
+        <tr>
+            <th>Day</th>
+            <th>Arrival</th>
+            <th>Departure</th>
+            <th>Connection Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Monday</td>
+            <td><input type="text" id="arrive-mon" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-mon" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-mon"></td>
+        </tr>
+        <tr>
+            <td>Tuesday</td>
+            <td><input type="text" id="arrive-tue" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-tue" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-tue"></td>
+        </tr>
+        <tr>
+            <td>Wednesday</td>
+            <td><input type="text" id="arrive-wed" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-wed" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-wed"></td>
+        </tr>
+        <tr>
+            <td>Thursday</td>
+            <td><input type="text" id="arrive-thu" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-thu" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-thu"></td>
+        </tr>
+        <tr>
+            <td>Friday</td>
+            <td><input type="text" id="arrive-fri" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-fri" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-fri"></td>
+        </tr>
+        <tr>
+            <td>Saturday</td>
+            <td><input type="text" id="arrive-sat" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-sat" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-sat"></td>
+        </tr>
+        <tr>
+            <td>Sunday</td>
+            <td><input type="text" id="arrive-sun" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-sun" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-sun"></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<!-- Table 2 -->
+<table>
+    <thead>
+        <tr>
+            <th>Day</th>
+            <th>Arrival</th>
+            <th>Departure</th>
+            <th>Connection Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Monday</td>
+            <td><input type="text" id="arrive-mon" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-mon" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-mon"></td>
+        </tr>
+        <tr>
+            <td>Tuesday</td>
+            <td><input type="text" id="arrive-tue" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-tue" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-tue"></td>
+        </tr>
+        <tr>
+            <td>Wednesday</td>
+            <td><input type="text" id="arrive-wed" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-wed" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-wed"></td>
+        </tr>
+        <tr>
+            <td>Thursday</td>
+            <td><input type="text" id="arrive-thu" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-thu" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-thu"></td>
+        </tr>
+        <tr>
+            <td>Friday</td>
+            <td><input type="text" id="arrive-fri" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-fri" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-fri"></td>
+        </tr>
+        <tr>
+            <td>Saturday</td>
+            <td><input type="text" id="arrive-sat" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-sat" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-sat"></td>
+        </tr>
+        <tr>
+            <td>Sunday</td>
+            <td><input type="text" id="arrive-sun" placeholder="hh:mm"></td>
+            <td><input type="text" id="depart-sun" placeholder="hh:mm or X"></td>
+            <td class="output" id="time-sun"></td>
+        </tr>
+    </tbody>
+</table>
+
+<button onclick="calculateTimes()">Calculate Connection Times</button>
+
+<script>
+    function parseTime(timeStr) {
+        const [hours, minutes] = timeStr.split(':').map(Number);
+        return hours * 60 + minutes;
+    }
+
+    function formatTime(minutes) {
+        const hours = Math.floor(minutes / 60);
+        const mins = minutes % 60;
+        return `${hours}h ${mins}m`;
+    }
+
+    function calculateTimes() {
+        const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+        const dayInMinutes = 1440;
+
+        // Loop through both tables
+        for (let tableIndex = 1; tableIndex <= 2; tableIndex++) {
+            for (let i = 0; i < days.length; i++) {
+                const day = days[i];
+                const arrivalInput = document.getElementById(`arrive${tableIndex === 2 ? '2' : ''}-${day}`).value;
+                const departureInput = document.getElementById(`depart${tableIndex === 2 ? '2' : ''}-${day}`).value;
+
+                if (!arrivalInput || departureInput.toLowerCase() === 'x') {
+                    // If there's no arrival or the departure is 'X', find the next valid flight
+                    let foundNextDeparture = false;
+                    for (let j = i + 1; j < days.length + i; j++) {
+                        const nextDay = days[j % days.length];
+                        const nextDepartureInput = document.getElementById(`depart${tableIndex === 2 ? '2' : ''}-${nextDay}`).value;
+
+                        if (nextDepartureInput && nextDepartureInput.toLowerCase() !== 'x') {
+                            const arrivalMinutes = parseTime(arrivalInput);
+                            const nextDepartureMinutes = parseTime(nextDepartureInput);
+                            const daysWaited = j >= days.length ? j - days.length : j - i;
+                            const totalWaitTimeInMinutes = daysWaited * dayInMinutes;
+
+                            const connectionTime = totalWaitTimeInMinutes - (arrivalMinutes - nextDepartureMinutes);
+                            document.getElementById(`time${tableIndex === 2 ? '2' : ''}-${day}`).textContent = formatTime(connectionTime);
+                            foundNextDeparture = true;
+                            break;
+                        }
+                    }
+                    if (!foundNextDeparture) {
+                        document.getElementById(`time${tableIndex === 2 ? '2' : ''}-${day}`).textContent = 'No Next Flight';
+                    }
+                    continue;
+                }
+
+                const arrivalMinutes = parseTime(arrivalInput);
+                const departureMinutes = parseTime(departureInput);
+
+                if (departureMinutes >= arrivalMinutes) {
+                    const connectionTime = departureMinutes - arrivalMinutes;
+                    document.getElementById(`time${tableIndex === 2 ? '2' : ''}-${day}`).textContent = formatTime(connectionTime);
+                } else {
+                    let foundNextDeparture = false;
+                    for (let j = i + 1; j < days.length + i; j++) {
+                        const nextDay = days[j % days.length];
+                        const nextDepartureInput = document.getElementById(`depart${tableIndex === 2 ? '2' : ''}-${nextDay}`).value;
+
+                        if (nextDepartureInput && nextDepartureInput.toLowerCase() !== 'x') {
+                            const nextDepartureMinutes = parseTime(nextDepartureInput);
+                            const daysWaited = j >= days.length ? j - days.length : j - i;
+                            const totalWaitTimeInMinutes = daysWaited * dayInMinutes;
+
+                            const connectionTime = totalWaitTimeInMinutes - (arrivalMinutes - nextDepartureMinutes);
+                            document.getElementById(`time${tableIndex === 2 ? '2' : ''}-${day}`).textContent = formatTime(connectionTime);
+                            foundNextDeparture = true;
+                            break;
+                        }
+                    }
+                    if (!foundNextDeparture) {
+                        document.getElementById(`time${tableIndex === 2 ? '2' : ''}-${day}`).textContent = 'No Next Flight';
+                    }
+                }
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
